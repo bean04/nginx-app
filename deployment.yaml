@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-demo
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-demo
+    spec:
+      # 拉取Harbor私有镜像的密钥
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+      - name: nginx
+        image: 192.168.220.151/library/nginx:v1
+        ports:
+        - containerPort: 80
